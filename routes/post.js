@@ -110,23 +110,6 @@ router.put("/update/:id",auth,async(req,res)=>{
 
 
 
-
-
-
-//get method start......................................
-router.get("/get",async(req,res)=>{
-
-    Post.find().populate("postedby","_id name").then(posts=>{
-
-        res.send({posts})
-    }).catch(err=>{
-        console.log("err");
-    })
- 
-})
-//get method end......................................
-
-
 //put method start......................................
 router.put("/update/:id",async(req,res)=>{
 
