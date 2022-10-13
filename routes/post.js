@@ -38,32 +38,32 @@ router.post("/post",auth,async(req,res,next)=>{
 
 
 //get method start ONLY JIS USER NE POST KARA USKA DATA SHOW......................................
-// router.get("/get",auth,async(req,res)=>{
+router.get("/get",auth,async(req,res)=>{
 
-//     Post.find({postedby:req.user._id})
-//     .populate("postedby", "_id name").then(mypost=>{
+    Post.find({postedby:req.user._id})
+    .populate("postedby", "_id name").then(mypost=>{
       
-//         res.send({mypost})
-//     }).catch(err=>{
-//         console.log("err");
-//     })
-// })
+        res.send({mypost})
+    }).catch(err=>{
+        console.log("err");
+    })
+})
 
 
 //get method start ONLY JIS USER NE POST KARA USKA DATA SHOW......................................
-router.get("/get",auth,async(req,res)=>{
+// router.get("/get",auth,async(req,res)=>{
 
-    try{
+//     try{
 
-    const get= await  Post.find({postedby:req.user._id}) .populate("postedby", "_id name")
+//     const get= await  Post.find({postedby:req.user._id}) .populate("postedby", "_id name")
 
-    res.status(201).send(get)
-    }
-    catch(err)
-    {
-    res.status(400).send(err)
-    }
-})
+//     res.status(201).send(get)
+//     }
+//     catch(err)
+//     {
+//     res.status(400).send(err)
+//     }
+// })
 
 
 
