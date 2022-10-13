@@ -16,8 +16,6 @@ router.post("/post",auth,async(req,res,next)=>{
     } else{
 
         req.user.password= undefined          // password ko show nhi krwane ke ley
-        req.user.__v=undefined
-        req.user._id=undefined
         
 
         const user = new Post({
