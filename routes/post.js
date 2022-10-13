@@ -67,21 +67,21 @@ router.get("/mypost",auth,async(req,res)=>{
 
 
 
-router.get("/get/:id",async(req,res)=>{
+// router.get("/get/:id",async(req,res)=>{
 
-    try{
+//     try{
      
-        const _id= req.params.id
+//         const _id= req.params.id
 
-     const getid= await Post.findById(_id)
+//      const getid= await Post.findById(_id)
 
-     res.status(201).send(getid)
-    }
-    catch(err)
-    {
-        res.status(400).send(err)
-    }
-})
+//      res.status(201).send(getid)
+//     }
+//     catch(err)
+//     {
+//         res.status(400).send(err)
+//     }
+// })
 
 
 router.delete("/delete/:id",auth,async(req,res)=>{
