@@ -84,7 +84,7 @@ router.get("/get/:id",async(req,res)=>{
 
 router.delete("/delete/:id",auth,async(req,res)=>{
 
-    Post.findOneAndDelete({postedby:req.user._id})
+    Post.findOne({_id:req.params.postId})
     .populate("postedby", "_id name").then(mypost=>{
       
         res.send("your data is delete")
@@ -96,7 +96,13 @@ router.delete("/delete/:id",auth,async(req,res)=>{
 
 router.put("/update/:id",auth,async(req,res)=>{
 
-    Post.findOneAndUpdate({postedby:req.user._id})
+  var   postedby=req.user._id
+
+    console.log(postedby);
+
+    Post.findByIdAndUpdate(req.body.postId,{
+        new:true
+    })
     .populate("postedby", "_id name").then(mypost=>{
       
         res.send("your data is update")
