@@ -36,7 +36,7 @@ router.post("/post",auth,async(req,res,next)=>{
 
 
 //get method start ONLY JIS USER NE POST KARA USKA DATA SHOW......................................
-router.get("/mypost",auth,async(req,res)=>{
+router.get("/get",auth,async(req,res)=>{
 
     Post.find({postedby:req.user._id})
     .populate("postedby", "_id name").then(mypost=>{
@@ -65,21 +65,21 @@ router.get("/mypost",auth,async(req,res)=>{
 
 
 
-// router.get("/get/:id",async(req,res)=>{
+router.get("/get/:id",async(req,res)=>{
 
-//     try{
+    try{
      
-//         const _id= req.params.id
+        const _id= req.params.id
 
-//      const getid= await Post.findById(_id)
+     const getid= await Post.findById(_id)
 
-//      res.status(201).send(getid)
-//     }
-//     catch(err)
-//     {
-//         res.status(400).send(err)
-//     }
-// })
+     res.status(201).send(getid)
+    }
+    catch(err)
+    {
+        res.status(400).send(err)
+    }
+})
 
 
 router.delete("/delete/:id",auth,async(req,res)=>{
@@ -106,20 +106,5 @@ router.put("/update/:id",auth,async(req,res)=>{
 
 })
 
-
-
-//put method start......................................
-router.put("/update/:id",async(req,res)=>{
-
-
-})
-//put method end......................................
-
-//delete method start......................................
-router.delete("/delete/:id",async(req,res)=>{
-
-
-})
-//delete method end......................................
 export default router
 
