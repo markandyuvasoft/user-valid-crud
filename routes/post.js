@@ -9,7 +9,7 @@ const router=express.Router()
 //post method start......................................
 router.post("/post",auth,async(req,res,next)=>{
 
-    const {  name, body ,city } = req.body;
+    const {  name, age ,city } = req.body;
 
     if(!name || !age || !city )
     {
@@ -50,22 +50,20 @@ router.get("/get",auth,async(req,res)=>{
     }
 })
 
-router.get("/get/:id",auth,(req,res)=>{
+router.get("/get/:id",async(req,res)=>{
 
-    User.findOne({_id:req.params.id})
-    .select("password")
-    .then(user=>{
-         Post.find({postedBy:req.params.id})
-         .populate("postedby","_id name")
-         .exec((err,posts)=>{
-             if(err){
-                 return res.status(422).send({error:err})
-             }
-             res.send({posts})
-         })
-    }).catch(err=>{
-        return res.status(404).send({error:"User not found"})
-    })
+    try{
+     
+        const _id= req.params.id
+
+     const getid= await Post.findById(_id)
+
+     res.status(201).send(getid)
+    }
+    catch(err)
+    {
+        res.status(400).send(err)
+    }
 })
 
 router.put("/update/:id",async(req,res)=>{
