@@ -9,9 +9,9 @@ const router=express.Router()
 //post method start......................................
 router.post("/post",auth,async(req,res,next)=>{
 
-    const { title, body } = req.body;
+    const {  name, body ,city } = req.body;
 
-    if(!title || !body )
+    if(!name || !age || !city )
     {
         res.status(400).send({error:"plz fill the data"})
     } else{
@@ -70,9 +70,9 @@ router.get("/get/:id",auth,(req,res)=>{
 
 router.put("/update/:id",async(req,res)=>{
 
-    const { title, body } = req.body;
+    const { name, body ,city } = req.body;
 
-    if(!title || !body )
+    if(!name || !age || !city )
     {
         res.send("plz fill the data")
     }

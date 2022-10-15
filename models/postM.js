@@ -3,14 +3,14 @@ const {ObjectId}= mongoose.Schema.Types
 
 const postSchema=new mongoose.Schema({
 
-    title:{
+    name:{
         type:String,
     
         },
-    body:{
+    age:{
         type:Number
     },
-    photo:{
+    city:{
         type:String,
         default:"no photo"
     },  
