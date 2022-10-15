@@ -1,6 +1,7 @@
 import  express  from "express";
 import Post from '../models/postM.js'
 import auth from "../middleware/check-auth.js";
+import User from "../models/userM.js";
 
 
 const router=express.Router()
@@ -35,82 +36,85 @@ router.post("/post",auth,async(req,res,next)=>{
 //post method end......................................
 
 
-//get method start ONLY JIS USER NE POST KARA USKA DATA SHOW......................................
 router.get("/get",auth,async(req,res)=>{
 
-    Post.find({postedby:req.user._id})
-    .populate("postedby", "_id name").then(mypost=>{
-      
-        res.send({mypost})
+    try{
+
+    const get= await  Post.find({postedby:req.user._id}) .populate("postedby", "_id name")
+
+    res.status(201).send(get)
+    }
+    catch(err)
+    {
+    res.status(400).send(err)
+    }
+})
+
+router.get("/get/:id",auth,(req,res)=>{
+
+    User.findOne({_id:req.params.id})
+    .select("password")
+    .then(user=>{
+         Post.find({postedBy:req.params.id})
+         .populate("postedby","_id name")
+         .exec((err,posts)=>{
+             if(err){
+                 return res.status(422).send({error:err})
+             }
+             res.send({posts})
+         })
     }).catch(err=>{
-        console.log("err");
+        return res.status(404).send({error:"User not found"})
     })
 })
 
+router.put("/update/:id",async(req,res)=>{
 
-//get method start ONLY JIS USER NE POST KARA USKA DATA SHOW......................................
-// router.get("/get",auth,async(req,res)=>{
+    const { title, body } = req.body;
 
-//     try{
-
-//     const get= await  Post.find({postedby:req.user._id}) .populate("postedby", "_id name")
-
-//     res.status(201).send(get)
-//     }
-//     catch(err)
-//     {
-//     res.status(400).send(err)
-//     }
-// })
-
-
-
-router.get("/get/:id",async(req,res)=>{
-
+    if(!title || !body )
+    {
+        res.send("plz fill the data")
+    }
+else{
+    
     try{
      
         const _id= req.params.id
 
-     const getid= await Post.findById(_id)
+     const getid= await Post.findByIdAndUpdate(_id,req.body,{
+
+        new:true
+     })
 
      res.status(201).send(getid)
     }
     catch(err)
     {
-        res.status(400).send(err)
+        res.status(500).send(err)
     }
+}
 })
 
 
 router.delete("/delete/:id",auth,async(req,res)=>{
 
-    Post.findOne({_id:req.params.postId})
-    .populate("postedby", "_id name").then(mypost=>{
-      
-        res.send("your data is delete")
-    }).catch(err=>{
-        console.log("err");
+        try{
+            const _id= req.params.id
+    
+            const del= await Post.findByIdAndDelete(_id)
+
+    
+    
+            res.status(200).send({message: "your data is delete"})
+        }
+        catch(err)
+        {
+            res.status(500).send(err)
+        }
     })
+//delete method end......................................
 
-})
-
-router.put("/update/:id",auth,async(req,res)=>{
-
-  var   postedby=req.user._id
-
-    console.log(postedby);
-
-    Post.findByIdAndUpdate(req.body.postId,{
-        new:true
-    })
-    .populate("postedby", "_id name").then(mypost=>{
-      
-        res.send("your data is update")
-    }).catch(err=>{
-        console.log("err");
-    })
-
-})
 
 export default router
 

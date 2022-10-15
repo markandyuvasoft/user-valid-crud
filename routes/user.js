@@ -63,7 +63,12 @@ userrouter.post('/login',(req,res,next)=>{
         bcrypt.compare(password,savedUser.password)
         .then(doMatch=>{
             if(doMatch){
-               const token = Jwt.sign({_id:savedUser._id},"i am markand")
+               const token = Jwt.sign({_id:savedUser._id
+              },
+              "i am markand",{
+                expiresIn:"24h"
+              }
+              )
                const {_id,name,email} = savedUser
                res.send({token,user:{_id,name,email}})
             }
