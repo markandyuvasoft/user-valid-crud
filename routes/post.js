@@ -70,13 +70,6 @@ router.get("/get/:id",async(req,res)=>{
 
 router.put("/update/:id",async(req,res)=>{
 
-    const { name, body ,city } = req.body;
-
-    if(!name || !age || !city )
-    {
-        res.send("plz fill the data")
-    }
-else{
     
     try{
      
@@ -93,7 +86,7 @@ else{
     {
         res.status(500).send(err)
     }
-}
+
 })
 
 
