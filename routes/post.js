@@ -21,7 +21,7 @@ router.post("/post",auth,async(req,res,next)=>{
 
         const user = new Post({
             // name,age,city,postedby:req.user         //req.user me user login ki details hai
-            name,age,city         //req.user me user login ki details hai
+            name,age,city,postedby:req.user         //req.user me user login ki details hai
 
         })
         user.save().then(()=>{
